@@ -7,3 +7,4 @@ backend/.env
 coverage/
 backend/coverage/
 .DS_Store
+.vscode/
