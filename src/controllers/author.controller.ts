@@ -38,11 +38,11 @@ export const getAuthorDashboard = async (req: AuthRequest, res: Response) => {
       }),
     ]);
 
-    const dashboardData = articles.map((article) => ({
+    const dashboardData = articles.map((article: any) => ({
       id: article.id,
       title: article.title,
       createdAt: article.createdAt,
-      TotalViews: article.dailyAnalytics.reduce((sum, analytics) => sum + analytics.viewCount, 0),
+      TotalViews: article.dailyAnalytics.reduce((sum: number, analytics: any) => sum + analytics.viewCount, 0),
     }));
 
     return sendPaginated(

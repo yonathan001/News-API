@@ -28,7 +28,7 @@ export const startAnalyticsJob = () => {
       });
 
       // Group by articleId and count
-      const articleViewCounts = readLogs.reduce((acc, log) => {
+      const articleViewCounts = readLogs.reduce((acc: Record<string, number>, log: any) => {
         acc[log.articleId] = (acc[log.articleId] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
@@ -90,7 +90,7 @@ export const runAnalyticsManually = async () => {
       },
     });
 
-    const articleViewCounts = readLogs.reduce((acc, log) => {
+    const articleViewCounts = readLogs.reduce((acc: Record<string, number>, log: any) => {
       acc[log.articleId] = (acc[log.articleId] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
