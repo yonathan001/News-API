@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../app';
 import prisma from '../config/database';
+import * as bcrypt from 'bcrypt';
 
 // Mock Prisma
 jest.mock('../config/database', () => ({
@@ -12,6 +13,9 @@ jest.mock('../config/database', () => ({
     },
   },
 }));
+
+// Mock bcrypt
+jest.mock('bcrypt');
 
 describe('Auth Endpoints', () => {
   afterEach(() => {
@@ -107,11 +111,7 @@ describe('Auth Endpoints', () => {
       };
 
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-
-      // Mock bcrypt compare
-      jest.mock('bcrypt', () => ({
-        compare: jest.fn().mockResolvedValue(true),
-      }));
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const response = await request(app)
         .post('/api/auth/login')

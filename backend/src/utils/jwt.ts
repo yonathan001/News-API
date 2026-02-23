@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { config } from '../config/env';
 
 export interface JwtPayload {
@@ -11,8 +11,7 @@ export const generateToken = (userId: string, role: 'author' | 'reader'): string
     sub: userId,
     role,
   };
-  const options: SignOptions = { expiresIn: config.jwtExpiration };
-  return jwt.sign(payload, config.jwtSecret, options);
+  return jwt.sign(payload, config.jwtSecret, { expiresIn: config.jwtExpiration } as any);
 };
 
 export const verifyToken = (token: string): JwtPayload => {
