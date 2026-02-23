@@ -1,6 +1,9 @@
 node_modules/
-dist/
+backend/node_modules/
+backend/dist/
 .env
+backend/.env
 *.log
 coverage/
+backend/coverage/
 .DS_Store

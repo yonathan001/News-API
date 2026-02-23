@@ -41,18 +41,24 @@ git clone https://github.com/yonathan001/News-API.git
 cd News-API
 ```
 
-### 2. Install dependencies
+### 2. Navigate to backend directory
+
+```bash
+cd backend
+```
+
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set up environment variables
+### 4. Set up environment variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the backend directory:
 
 ```bash
-cp .env.example .env
+cp ../.env.example .env
 ```
 
 Edit `.env` with your configuration:
@@ -65,7 +71,7 @@ PORT=3000
 NODE_ENV="development"
 ```
 
-### 4. Set up the database
+### 5. Set up the database
 
 Create a PostgreSQL database:
 
@@ -79,14 +85,14 @@ Or using psql:
 CREATE DATABASE news_api;
 ```
 
-### 5. Run database migrations
+### 6. Run database migrations
 
 ```bash
 npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-### 6. Start the server
+### 7. Start the server
 
 Development mode:
 ```bash
@@ -341,8 +347,9 @@ await runAnalyticsManually();
 
 ## Testing
 
-Run tests:
+Run tests (from backend directory):
 ```bash
+cd backend
 npm test
 ```
 
@@ -355,43 +362,49 @@ npm test -- --coverage
 
 ```
 News-API/
-├── prisma/
-│   └── schema.prisma
-├── src/
-│   ├── config/
-│   │   ├── database.ts
-│   │   └── env.ts
-│   ├── controllers/
-│   │   ├── auth.controller.ts
-│   │   ├── article.controller.ts
-│   │   └── author.controller.ts
-│   ├── jobs/
-│   │   └── analytics.job.ts
-│   ├── middleware/
-│   │   ├── auth.ts
-│   │   ├── errorHandler.ts
-│   │   └── validation.ts
-│   ├── routes/
-│   │   ├── auth.routes.ts
-│   │   ├── article.routes.ts
-│   │   ├── author.routes.ts
-│   │   └── index.ts
-│   ├── types/
-│   │   └── index.ts
-│   ├── utils/
-│   │   ├── jwt.ts
-│   │   ├── password.ts
-│   │   └── response.ts
-│   ├── validators/
-│   │   ├── auth.validator.ts
-│   │   └── article.validator.ts
-│   ├── app.ts
-│   └── server.ts
-├── .env.example
+├── README.md
 ├── .gitignore
-├── package.json
-├── tsconfig.json
-└── README.md
+├── .env.example
+└── backend/
+    ├── package.json
+    ├── tsconfig.json
+    ├── jest.config.js
+    ├── prisma/
+    │   └── schema.prisma
+    └── src/
+        ├── config/
+        │   ├── database.ts
+        │   └── env.ts
+        ├── controllers/
+        │   ├── auth.controller.ts
+        │   ├── article.controller.ts
+        │   └── author.controller.ts
+        ├── jobs/
+        │   └── analytics.job.ts
+        ├── middleware/
+        │   ├── auth.ts
+        │   ├── errorHandler.ts
+        │   ├── rateLimit.ts
+        │   └── validation.ts
+        ├── routes/
+        │   ├── auth.routes.ts
+        │   ├── article.routes.ts
+        │   ├── author.routes.ts
+        │   └── index.ts
+        ├── types/
+        │   └── index.ts
+        ├── utils/
+        │   ├── jwt.ts
+        │   ├── password.ts
+        │   └── response.ts
+        ├── validators/
+        │   ├── auth.validator.ts
+        │   └── article.validator.ts
+        ├── __tests__/
+        │   ├── auth.test.ts
+        │   └── article.test.ts
+        ├── app.ts
+        └── server.ts
 ```
 
 ## Technology Choices
