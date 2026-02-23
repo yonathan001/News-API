@@ -14,12 +14,13 @@ import {
   articleQueryValidator,
 } from '../validators/article.validator';
 import { validate } from '../middleware/validation';
+import { articleReadLimiter } from '../middleware/rateLimit';
 
 const router = Router();
 
 // Public routes
 router.get('/', validate(articleQueryValidator), getPublicArticles);
-router.get('/:id', optionalAuth, getArticleById);
+router.get('/:id', articleReadLimiter, optionalAuth, getArticleById);
 
 // Author-only routes
 router.post(
