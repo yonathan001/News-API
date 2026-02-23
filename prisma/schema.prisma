@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  author
+  reader
+}
+
+enum ArticleStatus {
+  Draft
+  Published
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role
+  createdAt DateTime  @default(now())
+  
+  articles  Article[]
+  readLogs  ReadLog[]
+}
+
+model Article {
+  id        String        @id @default(uuid())
+  title     String
+  content   String
+  category  String
+  status    ArticleStatus @default(Draft)
+  authorId  String
+  createdAt DateTime      @default(now())
+  deletedAt DateTime?
+  
+  author         User            @relation(fields: [authorId], references: [id])
+  readLogs       ReadLog[]
+  dailyAnalytics DailyAnalytics[]
+  
+  @@index([authorId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model ReadLog {
+  id        String   @id @default(uuid())
+  articleId String
+  readerId  String?
+  readAt    DateTime @default(now())
+  
+  article Article @relation(fields: [articleId], references: [id])
+  reader  User?   @relation(fields: [readerId], references: [id])
+  
+  @@index([articleId])
+  @@index([readAt])
+}
+
+model DailyAnalytics {
+  id        String   @id @default(uuid())
+  articleId String
+  viewCount Int      @default(0)
+  date      DateTime @db.Date
+  
+  article Article @relation(fields: [articleId], references: [id])
+  
+  @@unique([articleId, date])
+  @@index([articleId])
+  @@index([date])
+}
