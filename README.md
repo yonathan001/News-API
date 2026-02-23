@@ -438,27 +438,26 @@ News-API/
 
 ## Bonus Features
 
-### 1. Rate Limiting for Read Tracking
-To prevent abuse (e.g., refreshing 100 times in 10 seconds), implement:
+### 1. Rate Limiting for Read Tracking ✅ Implemented
+To prevent abuse (e.g., refreshing 100 times in 10 seconds), the API includes a custom rate limiter:
 
-```typescript
-// Add to middleware/rateLimit.ts
-import rateLimit from 'express-rate-limit';
+- **Window**: 10 seconds
+- **Max Requests**: 3 reads per article per user
+- **Tracking**: Based on IP address + article ID
+- **Response**: 429 Too Many Requests when limit exceeded
 
-export const readLimiter = rateLimit({
-  windowMs: 10 * 1000, // 10 seconds
-  max: 3, // 3 requests per window
-  message: 'Too many read requests, please try again later',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+The rate limiter is applied to the `GET /api/articles/:id` endpoint and prevents the same user from generating excessive ReadLog entries by refreshing repeatedly.
 
-// Apply to article read endpoint
-router.get('/:id', readLimiter, optionalAuth, getArticleById);
-```
+### 2. Unit Tests ✅ Implemented
+Comprehensive unit tests are included for all HTTP endpoints with database mocking using Jest and Supertest. Tests cover:
 
-### 2. Unit Tests
-Tests are included for all HTTP endpoints with database mocking.
+- User signup and login validation
+- Article CRUD operations
+- Authorization and role-based access control
+- Soft delete functionality
+- Error handling
+
+Run tests with: `npm test`
 
 ## Contributing
 
